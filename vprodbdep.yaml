@@ -14,28 +14,28 @@ spec:
     metadata:
       labels:
         app: vprodb
-  spec:
-      containers:
-      - name: vprodb
-        image: tiagomoreira83/vprofiledb
-        args:
+    spec:
+        containers:
+        - name: vprodb
+          image: tiagomoreira83/vprofiledb
+          args:
             - "ignore-db-dir=lost+found"
-        volumeMounts:
+          volumeMounts:
             - mountPath: /var/lib/mysql
               name: vpro-db-data
-        ports:
+          ports:
             - name: vprodb-port
               containerPort: 3306
-        env:
-          - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: app-secret
-                key: db-pass
-      nodeSelector:
-        zone: us-east-2a
-      volumes:
-        - name: vpro-db-data
-          awsElasticBlockStore:
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: db-pass
+        nodeSelector:
+          zone: us-east-2a
+        volumes:
+          - name: vpro-db-data
+            awsElasticBlockStore:
             volumeID: vol-01003ec232ce25951
             fsType: ext4
